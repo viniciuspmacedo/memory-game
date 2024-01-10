@@ -1,8 +1,11 @@
 const FRONT = "card_front";
 const BACK = "card_back";
 const CARD = "card";
-const ICON = "icon"
+const ICON = "icon";
+const gameOverLayer = document.querySelector("#gameover");
+const restartButton = document.querySelector("#restart");
 
+restartButton.addEventListener('click', restart)
 
 startGame();
 
@@ -17,6 +20,7 @@ function initializeCards() {
     game.createCardsFromTechs();
 
     let gameBoard = document.getElementById("gameBoard");
+    gameBoard.innerHTML = "";
 
     game.cards.forEach(card => {
         let cardElement = document.createElement("div");
@@ -62,6 +66,31 @@ function createCardFace(face, card, element) {
 }
 
 function flipCard() {
-    this.classList.add("flip")
+    if(game.setCard(this.id)){
+        this.classList.add("flip");
+        if(game.secondCard){
+            if(game.checkMatch()){
+                game.clearCards();
+                if(game.checkGameOver()){
+                    gameOverLayer.style.display = "flex";
+                }
+            } else {
+                setTimeout(()=> {
+                let firstCardView = document.getElementById(game.firstCard.id);
+                let secondCardView = document.getElementById(game.secondCard.id);
+
+                firstCardView.classList.remove("flip");
+                secondCardView.classList.remove("flip");
+
+                game.unflipCards();
+            }, 1000);
+        }
+    }
+    }
+
 }
 
+function restart(){
+    startGame();
+    gameOverLayer.style.display = "none";
+}
