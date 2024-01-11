@@ -15,14 +15,15 @@ body {
 
 #gameBoard {
     max-width: 700px;
+    max-height: 700px;
     display: grid;
     grid-template: repeat(5, 1fr) / repeat(4, 1fr);
     gap: 20px;
 }
 
 .card {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     position: relative;
 
     transform-style: preserve-3d;
